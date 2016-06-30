@@ -10,7 +10,6 @@ Annotation based configuration library for Java
 
 | TODO |
 |------|
-| YAML Implementation |
 | Make gradle package this nicely |
 | Start using jitpack.io |
 | Find workaround for silly finals & inlining |

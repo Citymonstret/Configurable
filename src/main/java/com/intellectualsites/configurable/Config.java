@@ -1,6 +1,5 @@
 package com.intellectualsites.configurable;
 
-import com.google.common.collect.ImmutableMap;
 import com.intellectualsites.configurable.annotations.Configuration;
 import com.intellectualsites.configurable.reflection.IField;
 import lombok.Getter;
@@ -22,11 +21,11 @@ import java.util.Optional;
 public abstract class Config<T> extends ConfigurationBase {
 
     @Getter private final Class<T> clazz;
-    private final ImmutableMap<String, IField<T>> fields;
+    private final Map<String, IField<T>> fields;
     private final T instance;
     @Getter private final String name;
 
-    protected Config(String name, Class<T> clazz, T instance, ImmutableMap<String, IField<T>> fields) {
+    protected Config(String name, Class<T> clazz, T instance, Map<String, IField<T>> fields) {
         this.clazz = clazz;
         this.fields = fields;
         this.instance = instance;

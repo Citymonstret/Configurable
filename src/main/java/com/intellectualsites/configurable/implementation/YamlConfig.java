@@ -1,6 +1,5 @@
 package com.intellectualsites.configurable.implementation;
 
-import com.google.common.collect.ImmutableMap;
 import com.intellectualsites.configurable.Config;
 import com.intellectualsites.configurable.ConfigurationImplementation;
 import com.intellectualsites.configurable.ConfigurationSection;
@@ -9,7 +8,9 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.representer.Representer;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public final class YamlConfig<T> extends Config<T> {
     private final Representer representer = new Representer();
     private final Yaml yaml = new Yaml(representer, dumperOptions);
 
-    public YamlConfig(String name, Class<T> clazz, T instance, ImmutableMap<String, IField<T>> fields) {
+    public YamlConfig(String name, Class<T> clazz, T instance, Map<String, IField<T>> fields) {
         super(name, clazz, instance, fields);
         this.dumperOptions.setIndent(2);
         this.dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);

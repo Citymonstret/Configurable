@@ -5,7 +5,6 @@ Annotation based configuration library for Java
 |:-----------|-------------|
 |[lombok](https://projectlombok.org/) | To make the code prettier, and easier to work with |
 |[json-io](https://github.com/jdereg/json-io) | For the JSON implementation |
-|[guava](https://github.com/google/guava) | Immutable maps are the best thing ever |
 |[SnakeYAML](https://bitbucket.org/asomov/snakeyaml) | For the YAML implementation |
 
 | TODO |

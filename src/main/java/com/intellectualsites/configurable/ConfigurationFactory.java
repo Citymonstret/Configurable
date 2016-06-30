@@ -1,6 +1,5 @@
 package com.intellectualsites.configurable;
 
-import com.google.common.collect.ImmutableMap;
 import com.intellectualsites.configurable.annotations.ConfigSection;
 import com.intellectualsites.configurable.annotations.ConfigValue;
 import com.intellectualsites.configurable.annotations.Configuration;
@@ -13,6 +12,7 @@ import com.intellectualsites.configurable.reflection.IField;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
 
 public final class ConfigurationFactory {
 
@@ -48,7 +48,7 @@ public final class ConfigurationFactory {
             final String configName = configuration.name().equals(DEFAULT_CONFIG_NAME) ?
                     clazz.getSimpleName() : configuration.name();
             final ConfigurationImplementation implementation = configuration.implementation();
-            final ImmutableMap.Builder<String, IField<T>> mapBuilder = ImmutableMap.builder();
+            final HashMap<String, IField<T>> fields = new HashMap<>();
             for (final Field field : clazz.getDeclaredFields()) {
                 if (!field.isAnnotationPresent(ConfigValue.class)) {
                     continue;
@@ -64,7 +64,7 @@ public final class ConfigurationFactory {
                 } else {
                     ifield.fromInstance(instance);
                 }
-                mapBuilder.put(field.getName(), ifield);
+                fields.put(field.getName(), ifield);
             }
             for (final Class<?> inner : clazz.getDeclaredClasses()) {
                 if (!inner.isAnnotationPresent(ConfigSection.class)) {
@@ -99,14 +99,14 @@ public final class ConfigurationFactory {
                     } else {
                         ifield.fromInstance(innerInstance);
                     }
-                    mapBuilder.put(sectionName + "." + field.getName(), ifield);
+                    fields.put(sectionName + "." + field.getName(), ifield);
                 }
             }
             switch (implementation) {
                 case JSON:
-                    return new JsonConfig<>(configName, clazz, instance, mapBuilder.build());
+                    return new JsonConfig<>(configName, clazz, instance, fields);
                 case YAML:
-                    return new YamlConfig<>(configName, clazz, instance, mapBuilder.build());
+                    return new YamlConfig<>(configName, clazz, instance, fields);
                 default: break; // Will never happen
             }
         } else {

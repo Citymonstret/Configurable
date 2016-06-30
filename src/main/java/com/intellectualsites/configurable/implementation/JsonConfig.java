@@ -3,7 +3,6 @@ package com.intellectualsites.configurable.implementation;
 import com.cedarsoftware.util.io.JsonObject;
 import com.cedarsoftware.util.io.JsonReader;
 import com.cedarsoftware.util.io.JsonWriter;
-import com.google.common.collect.ImmutableMap;
 import com.intellectualsites.configurable.Config;
 import com.intellectualsites.configurable.ConfigurationImplementation;
 import com.intellectualsites.configurable.ConfigurationSection;
@@ -21,7 +20,7 @@ import java.util.Map;
  */
 public final class JsonConfig<T> extends Config<T> {
 
-    public JsonConfig(String name, Class<T> clazz, T instance, ImmutableMap<String, IField<T>> fields) {
+    public JsonConfig(String name, Class<T> clazz, T instance, Map<String, IField<T>> fields) {
         super(name, clazz, instance, fields);
     }
 

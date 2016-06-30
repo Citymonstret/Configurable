@@ -25,4 +25,5 @@ dependencies {
     compile 'org.projectlombok:lombok:1.16.6'
     compile group: 'com.google.guava', name: 'guava', version: '19.0'
     compile group: 'com.cedarsoftware', name: 'json-io', version: '4.4.0'
+    compile group: 'org.yaml', name: 'snakeyaml', version: '1.17'
 }

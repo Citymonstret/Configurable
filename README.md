@@ -6,6 +6,7 @@ Annotation based configuration library for Java
 |[lombok](https://projectlombok.org/) | To make the code prettier, and easier to work with |
 |[json-io](https://github.com/jdereg/json-io) | For the JSON implementation |
 |[guava](https://github.com/google/guava) | Immutable maps are the best thing ever |
+|[SnakeYAML](https://bitbucket.org/asomov/snakeyaml) | For the YAML implementation |
 
 | TODO |
 |------|
@@ -72,4 +73,35 @@ And this is how it would end up
     "blockDecayEvent": false
   }
 }
+```
+
+
+Another example, where the inner class is static (which removes the requirement for the instance field - See JavaDocs)
+```java
+@Configuration(implementation = ConfigurationImplementation.YAML)
+public class Tester {
+
+    @ConfigSection
+    public static class Sub {
+        @ConfigValue
+        public static String test = "Hello";
+    }
+    
+```
+
+Would be read as:
+```java
+try {
+    Config<Tester> config = ConfigurationFactory.from(Tester.class);
+    config.read(new File("."));
+    System.out.println(Sub.test);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+```
+
+And would ouput (Tester.yml)
+```yaml
+Sub:
+  test: Hello
 ```

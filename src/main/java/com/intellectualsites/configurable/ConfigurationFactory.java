@@ -4,10 +4,11 @@ import com.google.common.collect.ImmutableMap;
 import com.intellectualsites.configurable.annotations.ConfigSection;
 import com.intellectualsites.configurable.annotations.ConfigValue;
 import com.intellectualsites.configurable.annotations.Configuration;
-import com.intellectualsites.configurable.reflection.FieldProperty;
-import com.intellectualsites.configurable.reflection.IField;
 import com.intellectualsites.configurable.exception.ConfigurationFactoryException;
 import com.intellectualsites.configurable.implementation.JsonConfig;
+import com.intellectualsites.configurable.implementation.YamlConfig;
+import com.intellectualsites.configurable.reflection.FieldProperty;
+import com.intellectualsites.configurable.reflection.IField;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -74,8 +75,12 @@ public final class ConfigurationFactory {
                         inner.getSimpleName() : configSection.name();
                 Object innerInstance = null;
                 try {
-                    innerInstance = new IField<>(clazz).fromInstance(instance).named(sectionName)
-                            .withProperties(FieldProperty.CONSTANT, FieldProperty.ACCESS_GRANT).getValue();
+                    if (Modifier.isStatic(inner.getModifiers())) {
+                        innerInstance = inner.newInstance();
+                    } else {
+                        innerInstance = new IField<>(clazz).fromInstance(instance).named(sectionName)
+                                .withProperties(FieldProperty.CONSTANT, FieldProperty.ACCESS_GRANT).getValue();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -101,7 +106,7 @@ public final class ConfigurationFactory {
                 case JSON:
                     return new JsonConfig<>(configName, clazz, instance, mapBuilder.build());
                 case YAML:
-                    return null;
+                    return new YamlConfig<>(configName, clazz, instance, mapBuilder.build());
                 default: break; // Will never happen
             }
         } else {

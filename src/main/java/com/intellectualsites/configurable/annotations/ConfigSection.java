@@ -10,8 +10,14 @@ import java.lang.annotation.Target;
 /**
  * <p>
  *     Sections allow you to separate values, and make them easier
- *     to work with. Sections are created as inner classes, and need
- *     a field in the parent instance, with the same name
+ *     to work with. Sections are created as inner classes
+ * </p>
+ * <p>
+ *     If the inner class isn't static, you have to declare a
+ *     variable with the same name with the instance you want to
+ *     use, in the parent class (see example below). If the inner
+ *     class is static, however, then this isn't necessary
+ * </p>
  * <pre><code>
  *   &#64;Configuration
  *   public class Foo {

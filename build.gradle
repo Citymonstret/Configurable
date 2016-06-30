@@ -1,0 +1,28 @@
+buildscript {
+
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+group = 'com.intellectualsites'
+version = '0.0.1'
+description = """"""
+
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.projectlombok:lombok:1.16.6'
+    compile group: 'com.google.guava', name: 'guava', version: '19.0'
+    compile group: 'com.cedarsoftware', name: 'json-io', version: '4.4.0'
+}

@@ -29,4 +29,6 @@ public @interface Configuration {
      * @return The implemention, defaults to {@link ConfigurationImplementation#JSON}
      */
     ConfigurationImplementation implementation() default ConfigurationImplementation.JSON;
+    
+    boolean requiresAnnotations() default false;
 }

@@ -14,7 +14,7 @@ Annotation based configuration library for Java
 
 
 # Build
-Build using gradle ```gradlew shadowJar```
+Build using gradle ```gradlew build```
 
 # Maven
 We're on maven
@@ -28,7 +28,7 @@ We're on maven
 <dependency>
     <groupId>com.github.Sauilitired</groupId>
 	<artifactId>Configurable</artifactId>
-	<version>-55582fa154-1</version>
+	<version>-SNAPSHOT</version>
 </dependency>
 ```
 

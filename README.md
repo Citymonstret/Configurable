@@ -39,21 +39,18 @@ Example of a config declaration using lombok for ```@Getter```
 public class RandomClass {
 
   @Getter
-  @ConfigValue
   private String loginMessage = "Welcome online {0}!";
 
   @Getter
-  private Listeners listeners = new Listeners();
+  private transient Listeners listeners = new Listeners();
 
   @ConfigSection
   public class Listeners {
 
     @Getter
-    @ConfigValue
     public boolean asyncPlayerChatEvent = false;
 
     @Getter
-    @ConfigValue
     private boolean blockDecayEvent = false;
 
   }  
@@ -95,7 +92,7 @@ And this is how it would end up
 
 Another example, where the inner class is static (which removes the requirement for the instance field - See JavaDocs)
 ```java
-@Configuration(implementation = ConfigurationImplementation.YAML)
+@Configuration(implementation = ConfigurationImplementation.YAML, requiresAnnotations = true)
 public class Tester {
 
     @ConfigSection

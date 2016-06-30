@@ -50,7 +50,10 @@ public final class ConfigurationFactory {
             final ConfigurationImplementation implementation = configuration.implementation();
             final HashMap<String, IField<T>> fields = new HashMap<>();
             for (final Field field : clazz.getDeclaredFields()) {
-                if (!field.isAnnotationPresent(ConfigValue.class)) {
+                if (configuration.requiresAnnotations() && !field.isAnnotationPresent(ConfigValue.class)) {
+                     continue;
+                }
+                if (Modifier.isTransient(field.getModifier()) {
                     continue;
                 }
                 final IField<T> ifield = new IField<>(clazz).named(field.getName())
@@ -85,7 +88,10 @@ public final class ConfigurationFactory {
                     e.printStackTrace();
                 }
                 for (final Field field : inner.getDeclaredFields()) {
-                    if (!field.isAnnotationPresent(ConfigValue.class)) {
+                    if (configuration.requiresAnnotations() && !field.isAnnotationPresent(ConfigValue.class)) {
+                         continue;
+                    }
+                    if (Modifier.isTransient(field.getModifier()) {
                         continue;
                     }
                     final IField ifield = new IField<>(inner).named(field.getName())

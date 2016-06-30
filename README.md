@@ -1,45 +1,64 @@
 # Configurable
 Annotation based configuration library for Java
 
+| Dependency | Explanation |
+|:-----------|-------------|
+|[lombok](https://projectlombok.org/) | To make the code prettier, and easier to work with |
+|[json-io](https://github.com/jdereg/json-io) | For the JSON implementation |
+|[guava](https://github.com/google/guava) | Immutable maps are the best thing ever |
 
-This is sort of how I want it to end up
+| TODO |
+|------|
+| YAML Implementation |
+| Make gradle package this nicely |
+| Start using jitpack.io |
+| Find workaround for silly finals & inlining |
+| _maybe_ Comments |
+
+Example of a config declaration using lombok for ```@Getter```
 ```java
 @Configuration(name = "config", implementation = ConfigurationImplementation.JSON)
 public class RandomClass {
-  @Getter
-  @ConfigValue(description = "Message sent on login!")
-  private final String loginMessage = "Welcome online {0}!";
 
-  @ConfigSection(keepCapitlization = true)
+  @Getter
+  @ConfigValue
+  private String loginMessage = "Welcome online {0}!";
+
+  @Getter
+  private Listeners listeners = new Listeners();
+
+  @ConfigSection
   public class Listeners {
 
+    @Getter
     @ConfigValue
-    public final boolean asyncPlayerChatEvent = false;
+    public boolean asyncPlayerChatEvent = false;
 
+    @Getter
     @ConfigValue
-    public final boolean blockDecayEvent = false;
+    private boolean blockDecayEvent = false;
 
   }  
 }
+```
 
-// Creating an instance from the factory singleton
+And this is how you would manage it
+```java
+final File FOLDER = new File(".");
+
 Config<RandomClass> config = ConfigurationFactory.from(RandomClass.class);
-// Load the configuration
-config.load(/* Object ... args */);
-// #get() gets the instance, then just access the fields
-config.get().getLoginMessage(); // Using lombok getter
-// Inner-classes are "sections"
-config.getSection("Listeners").get("asyncPlayerChatEvent", Boolean.class);
-// Just using the instance
+try {
+  config.read(FOLDER);
+} catch(final Exception e) {
+  System.out.println("Failed to read the config :/");
+}
+
+// Get the RandomClass instance
 RandomClass instance = config.get();
-instance.Listeners.asyncPlayerChatEvent;
+String loginMessage = instance.getLoginMessage();
 
-// Creating our own instance
-RandomClass randomClass = new RandomClass();
-// This will create a config object, just as we did before
-Config<RandomClass> config = ConfigurationFactory.from(RandomClass.class);
-// But instead we load it into a pre-made instance!
-config.load(randomClass);
+// But you can also access it like this
+String loginMessage = config.get("loginMessage", String.class);
 ```
 
 And this is how it would end up
@@ -48,6 +67,7 @@ And this is how it would end up
 {
   "loginMessage": "Welcome online {0}!",
   "Listeners": {
+    "@type":"java.util.HashMap", // Ignore this
     "asyncPlayerChatEvent": false,
     "blockDecayEvent": false
   }

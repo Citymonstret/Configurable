@@ -68,7 +68,7 @@ And this is how it would end up
 {
   "loginMessage": "Welcome online {0}!",
   "Listeners": {
-    "@type":"java.util.HashMap", // Ignore this
+    "@type":"java.util.HashMap",
     "asyncPlayerChatEvent": false,
     "blockDecayEvent": false
   }
@@ -87,6 +87,7 @@ public class Tester {
         public static String test = "Hello";
     }
     
+}   
 ```
 
 Would be read as:

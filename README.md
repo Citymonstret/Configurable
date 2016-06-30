@@ -9,10 +9,29 @@ Annotation based configuration library for Java
 
 | TODO |
 |------|
-| Make gradle package this nicely |
-| Start using jitpack.io |
 | Find workaround for silly finals & inlining |
 | _maybe_ Comments |
+
+
+# Build
+Build using gradle ```gradlew shadowJar```
+
+# Maven
+We're on maven
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+<dependency>
+    <groupId>com.github.Sauilitired</groupId>
+	<artifactId>Configurable</artifactId>
+	<version>-SNAPSHOT</version>
+</dependency>
+```
+
 
 Example of a config declaration using lombok for ```@Getter```
 ```java

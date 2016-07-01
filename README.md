@@ -28,7 +28,7 @@ We're on maven
 <dependency>
     <groupId>com.github.Sauilitired</groupId>
 	<artifactId>Configurable</artifactId>
-	<version>-SNAPSHOT</version>
+	<version>0.0.3</version>
 </dependency>
 ```
 

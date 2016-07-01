@@ -8,7 +8,9 @@ import com.intellectualsites.configurable.implementation.JsonConfig;
 import com.intellectualsites.configurable.implementation.YamlConfig;
 import com.intellectualsites.configurable.reflection.FieldProperty;
 import com.intellectualsites.configurable.reflection.IField;
+import lombok.SneakyThrows;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -22,8 +24,59 @@ public final class ConfigurationFactory {
      */
     public static final String DEFAULT_CONFIG_NAME = "__CLASS__";
 
-    public static <T> Config<T> from(final Class<T> clazz, Object ... constructorArguments)
-            throws ConfigurationFactoryException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    @SneakyThrows
+    public static <T> Config<T> load(final Class<T> clazz, File folder, Object... constructorArguments) {
+        T instance;
+        try {
+            instance = getInstance(clazz, constructorArguments);
+        } catch (final Exception e) {
+            throw new ConfigurationFactoryException(clazz, "Failed to construct an instance", e);
+        }
+        return load(clazz, instance, folder);
+    }
+    
+    public static <T> Config<T> load(final Class<T> clazz, Object ... constructorArguments) {
+        return load(clazz, new File("."), constructorArguments);
+    }
+
+    @SneakyThrows
+    public static <T> Config<T> load(final Class<T> clazz, final T instance, File folder) {
+        Config<T> config;
+        try {
+            config = from(clazz, instance);
+            if (config != null) {
+                config.read(folder);
+            } else {
+                throw new NullPointerException("config");
+            }
+        } catch (ConfigurationFactoryException e) {
+            new ConfigurationFactoryException(clazz, "Failed to load config, using defaults instead", e).printStackTrace();
+            config = new Config<T>(instance) {
+                @Override
+                protected void readInternal(File file) {
+                    throw new UnsupportedOperationException("This is a broken config");
+                }
+
+                @Override
+                protected void saveInternal(File file) {
+                    throw new UnsupportedOperationException("This is a broken config");
+                }
+
+                @Override
+                public ConfigurationImplementation getImplementation() {
+                    throw new UnsupportedOperationException("This is a broken config");
+                }
+            };
+        }
+        return config;
+    }
+    
+    public static <T> Config<T> load(final Class<T> clazz, final T instance) {
+        return load(clazz, instance, new File("."));
+    }
+
+
+    private static <T> T getInstance(final Class<T> clazz, Object ... constructorArguments) throws NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
         final T instance;
         if (constructorArguments.length == 0) {
             instance = clazz.newInstance();
@@ -35,7 +88,13 @@ public final class ConfigurationFactory {
             instance = clazz.getDeclaredConstructor(classes)
                     .newInstance(constructorArguments);
         }
-        return from(clazz, instance);
+        return instance;
+    }
+    
+    public static <T> Config<T> from(final Class<T> clazz, Object ... constructorArguments)
+            throws ConfigurationFactoryException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        final T instance = getInstance(clazz, constructorArguments);
+        return from(clazz, getInstance(clazz, constructorArguments));
     }
 
     public static <T> Config<T> from(final Class<T> clazz, T instance) throws ConfigurationFactoryException {
@@ -50,10 +109,10 @@ public final class ConfigurationFactory {
             final ConfigurationImplementation implementation = configuration.implementation();
             final HashMap<String, IField<T>> fields = new HashMap<>();
             for (final Field field : clazz.getDeclaredFields()) {
-                if (configuration.requiresAnnotations() && !field.isAnnotationPresent(ConfigValue.class)) {
+                if (configuration.annotationMode() == AnnotationMode.REQUIRED && !field.isAnnotationPresent(ConfigValue.class)) {
                      continue;
                 }
-                if (Modifier.isTransient(field.getModifier()) {
+                if (Modifier.isTransient(field.getModifiers())) {
                     continue;
                 }
                 final IField<T> ifield = new IField<>(clazz).named(field.getName())
@@ -88,10 +147,15 @@ public final class ConfigurationFactory {
                     e.printStackTrace();
                 }
                 for (final Field field : inner.getDeclaredFields()) {
-                    if (configuration.requiresAnnotations() && !field.isAnnotationPresent(ConfigValue.class)) {
+                    if (field.getName().equals("this$0")) {
+                        continue;
+                    }
+                    if ((configSection.annotationMode() == AnnotationMode.REQUIRED ||
+                            (configSection.annotationMode() == AnnotationMode.INHERIT && configuration.annotationMode() == AnnotationMode.REQUIRED)) &&
+                            !field.isAnnotationPresent(ConfigValue.class)) {
                          continue;
                     }
-                    if (Modifier.isTransient(field.getModifier()) {
+                    if (Modifier.isTransient(field.getModifiers())) {
                         continue;
                     }
                     final IField ifield = new IField<>(inner).named(field.getName())

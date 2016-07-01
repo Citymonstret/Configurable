@@ -1,5 +1,6 @@
 package com.intellectualsites.configurable.annotations;
 
+import com.intellectualsites.configurable.AnnotationMode;
 import com.intellectualsites.configurable.ConfigurationFactory;
 
 import java.lang.annotation.ElementType;
@@ -43,4 +44,12 @@ public @interface ConfigSection {
      * @return The name of the section, defaults to {@link ConfigurationFactory#DEFAULT_CONFIG_NAME}
      */
     String name() default ConfigurationFactory.DEFAULT_CONFIG_NAME;
+
+    /**
+     * Declares how the section  will handle {@link ConfigValue}
+     * See {@link AnnotationMode} for explanation
+     *
+     * @return The annotation mode, defaults to {@link AnnotationMode#INHERIT}
+     */
+    AnnotationMode annotationMode() default AnnotationMode.INHERIT;
 }

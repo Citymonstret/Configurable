@@ -1,5 +1,6 @@
 package com.intellectualsites.configurable.annotations;
 
+import com.intellectualsites.configurable.AnnotationMode;
 import com.intellectualsites.configurable.ConfigurationFactory;
 import com.intellectualsites.configurable.ConfigurationImplementation;
 
@@ -26,9 +27,15 @@ public @interface Configuration {
     /**
      * The implementation type used for the configuration file
      *
-     * @return The implemention, defaults to {@link ConfigurationImplementation#JSON}
+     * @return The implementation, defaults to {@link ConfigurationImplementation#JSON}
      */
     ConfigurationImplementation implementation() default ConfigurationImplementation.JSON;
-    
-    boolean requiresAnnotations() default false;
+
+    /**
+     * Declares how the configuration will handle {@link ConfigValue}
+     * See {@link AnnotationMode} for explanation
+     *
+     * @return The annotation mode, defaults to {@link AnnotationMode#NOT_REQUIRED}
+     */
+    AnnotationMode annotationMode() default AnnotationMode.NOT_REQUIRED;
 }

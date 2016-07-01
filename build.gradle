@@ -4,7 +4,7 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 group = 'com.intellectualsites'
-version = '0.0.2'
+version = '0.0.3'
 description = """"""
 
 compileJava {
@@ -17,14 +17,20 @@ repositories {
     mavenCentral()
 }
 
+
+project.configurations {
+    releaseJars
+}
+
 dependencies {
     compile 'org.projectlombok:lombok:1.16.6'
     compile group: 'com.cedarsoftware', name: 'json-io', version: '4.4.0'
     compile group: 'org.yaml', name: 'snakeyaml', version: '1.17'
+    releaseJars 'org.projectlombok:lombok:1.16.6'
 }
 
 jar {
-    from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {
+    from(project.configurations.releaseJars.collect { it.isDirectory() ? it : zipTree(it) }) {
         exclude "META-INF/*.SF"
         exclude "META-INF/*.DSA"
         exclude "META-INF/*.RSA"

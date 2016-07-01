@@ -39,6 +39,13 @@ public abstract class Config<T> extends ConfigurationBase {
         }
     }
 
+    protected Config(T instance) {
+        this.clazz = null;
+        this.fields = null;
+        this.instance = instance;
+        this.name = null;
+    }
+
     protected abstract void readInternal(File file);
     protected abstract void saveInternal(File file);
 

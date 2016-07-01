@@ -13,7 +13,7 @@ import java.util.Optional;
 public class IField<T> {
 
     @Getter
-    private final Class<T> fieldClass;
+    private final Class<? extends T> fieldClass;
 
     @Getter
     private final Collection<FieldProperty> fieldProperties;
@@ -21,7 +21,7 @@ public class IField<T> {
     private T instance;
     private String name;
 
-    public IField(@NonNull final Class<T> clazz) {
+    public IField(@NonNull final Class<? extends T> clazz) {
         this.fieldClass = clazz;
         this.fieldProperties = new ArrayList<>();
     }

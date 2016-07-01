@@ -61,12 +61,7 @@ And this is how you would manage it
 ```java
 final File FOLDER = new File(".");
 
-Config<RandomClass> config = ConfigurationFactory.from(RandomClass.class);
-try {
-  config.read(FOLDER);
-} catch(final Exception e) {
-  System.out.println("Failed to read the config :/");
-}
+Config<RandomClass> config = ConfigurationFactory.load(RandomClass.class, FOLDER);
 
 // Get the RandomClass instance
 RandomClass instance = config.get();
@@ -113,6 +108,12 @@ try {
 } catch (Exception e) {
     e.printStackTrace();
 }
+
+
+OR
+
+ConfigurationFactory.from(Tester.class);
+System.out.println(Sub.test);
 ```
 
 And would ouput (Tester.yml)

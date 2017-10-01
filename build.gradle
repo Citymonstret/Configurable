@@ -4,7 +4,7 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 group = 'com.intellectualsites'
-version = '0.0.3'
+version = '0.0.4'
 description = """"""
 
 compileJava {
@@ -23,7 +23,7 @@ project.configurations {
 }
 
 dependencies {
-    compile 'org.projectlombok:lombok:1.16.6'
+    compileOnly 'org.projectlombok:lombok:1.16.6'
     compile group: 'com.cedarsoftware', name: 'json-io', version: '4.4.0'
     compile group: 'org.yaml', name: 'snakeyaml', version: '1.17'
     releaseJars 'org.projectlombok:lombok:1.16.6'

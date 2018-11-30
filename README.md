@@ -29,7 +29,7 @@ We're on maven
 <dependency>
     <groupId>com.github.Sauilitired</groupId>
     <artifactId>Configurable</artifactId>
-    <version>0.0.3</version>
+    <version>e5b88d349b</version>
 </dependency>
 ```
 

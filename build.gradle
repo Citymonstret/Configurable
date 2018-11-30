@@ -23,7 +23,9 @@ project.configurations {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.16.6'
+    testCompileOnly 'org.projectlombok:lombok:1.18.4'
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+    compile 'com.moandjiezana.toml:toml4j:0.7.2'
     compile group: 'com.cedarsoftware', name: 'json-io', version: '4.4.0'
     compile group: 'org.yaml', name: 'snakeyaml', version: '1.17'
 }

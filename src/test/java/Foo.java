@@ -5,7 +5,7 @@ import com.intellectualsites.configurable.annotations.ConfigValue;
 import com.intellectualsites.configurable.annotations.Configuration;
 import lombok.Getter;
 
-@Configuration(name = "config", implementation = ConfigurationImplementation.YAML)
+@Configuration(name = "config", implementation = ConfigurationImplementation.TOML)
 public class Foo {
 
     // Will be included

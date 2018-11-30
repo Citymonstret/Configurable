@@ -5,6 +5,7 @@ import com.intellectualsites.configurable.annotations.ConfigValue;
 import com.intellectualsites.configurable.annotations.Configuration;
 import com.intellectualsites.configurable.exception.ConfigurationFactoryException;
 import com.intellectualsites.configurable.implementation.JsonConfig;
+import com.intellectualsites.configurable.implementation.TomlConfig;
 import com.intellectualsites.configurable.implementation.YamlConfig;
 import com.intellectualsites.configurable.reflection.FieldProperty;
 import com.intellectualsites.configurable.reflection.IField;
@@ -177,6 +178,8 @@ public final class ConfigurationFactory {
                     return new JsonConfig<>(configName, clazz, instance, fields);
                 case YAML:
                     return new YamlConfig<>(configName, clazz, instance, fields);
+                case TOML:
+                    return new TomlConfig<>(configName, clazz, instance, fields);
                 default: break; // Will never happen
             }
         } else {

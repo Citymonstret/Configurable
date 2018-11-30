@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ConfigurationImplementation {
     JSON("json"),
+    TOML("toml"),
     YAML("yml");
     
     @Getter

@@ -46,7 +46,6 @@ public class IField<T> {
         return this;
     }
 
-
     public Field getField() throws Exception {
         if (!getInstance().isPresent() && !fieldProperties.contains(FieldProperty.STATIC)) {
             throw new RuntimeException("Cannot access static field, that isn't static (Missing FieldProperty: STATIC)");

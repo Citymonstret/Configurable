@@ -105,7 +105,6 @@ public abstract class ConfigurationBase {
         defaults.entrySet().stream().filter(entry -> !contains(entry.getKey())).forEach(entry -> set(entry.getKey(), entry.getValue()));
     }
 
-
     public Object map() {
         return this.internalMap;
     }
